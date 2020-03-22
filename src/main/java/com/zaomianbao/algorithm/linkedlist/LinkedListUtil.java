@@ -3,13 +3,13 @@ package com.zaomianbao.algorithm.linkedlist;
 import com.zaomianbao.algorithm.util.CommonException;
 
 /**
- * @Description ReverseLinkedList
+ * @Description LinkedListUtil
  * @Author zaomianbao
  * @Date 2020/3/21
  **/
-public class ReverseLinkedList {
+public class LinkedListUtil {
 
-    private ReverseLinkedList() {
+    private LinkedListUtil() {
         throw new IllegalStateException("Utility class");
     }
 
@@ -20,25 +20,26 @@ public class ReverseLinkedList {
      * @return
      */
     public static<T> ListNode<T> reverseListIteratively(ListNode<T> head) {
+        //当为null和一个节点时直接返回
         if (head == null || head.getNext() == null) {
             return head;
         }
         //定义两个指针，一个prev用于记录一次操作中的head节点，一个next用于记录一次操作中的last节点
-        ListNode<T> prev = head;
-        ListNode<T> next = null;
+        ListNode<T> curr = head;
+        ListNode<T> pre = null;
         //收敛条件，一直迭代到链尾
-        while (prev != null) {
+        while (curr != null) {
             //暂存一下当前节点在没倒转前的下一个节点，防止变化指针指向后找不到后续的节点
-            ListNode<T> tmp = prev.getNext();
+            ListNode<T> tmp = curr.getNext();
             //这一步是真正的倒转的操作
-            prev.setNext(next);
-            //将当前循环操作的节点作为下一次循环的next节点
-            next = prev;
-            //将之前暂存的节点（原链表的下一节点）作为下一次需要操作的节点
-            prev = tmp;
+            curr.setNext(pre);
+            //pre指针后移一位，将当前操作的节点作为下一个循环操作节点的下一个节点
+            pre = curr;
+            //curr节点后移一位，将之前暂存的节点（原链表的下一节点）作为下一次需要操作的节点
+            curr = tmp;
         }
-        //到这里代表链表已经迭代结束，这个next节点最终也变成了链表倒转后的头结点
-        return next;
+        //到这里代表链表已经迭代结束，这个pre节点最终也变成了链表倒转后的头结点
+        return pre;
     }
 
     /**
@@ -72,14 +73,14 @@ public class ReverseLinkedList {
 
     /**
      *   Given a linked list, reverse the nodes of a linked list k at a time and return its modified list.
-         k is a positive integer and is less than or equal to the length of the linked list. If the number of nodes is not a multiple of k then left-out nodes in the end should remain as it is.
-         Example:
-         Given this linked list: 1->2->3->4->5
-         For k = 2, you should return: 2->1->4->3->5
-         For k = 3, you should return: 3->2->1->4->5
-         Note:
-         Only constant extra memory is allowed.
-         You may not alter the values in the list's nodes, only nodes itself may be changed.
+     *   k is a positive integer and is less than or equal to the length of the linked list. If the number of nodes is not a multiple of k then left-out nodes in the end should remain as it is.
+     *   Example:
+     *   Given this linked list: 1->2->3->4->5
+     *   For k = 2, you should return: 2->1->4->3->5
+     *   For k = 3, you should return: 3->2->1->4->5
+     *   Note:
+     *   Only constant extra memory is allowed.
+     *   You may not alter the values in the list's nodes, only nodes itself may be changed.
      * @param node
      * @param <T>
      * @return
@@ -88,7 +89,7 @@ public class ReverseLinkedList {
 
         //空值判定
         if ( node == null ) {
-            throw new CommonException(-1,"NullPointException");
+            return null;
         }
 
         //定义三个指正，当前节点指针、当前节点翻转前的上一节点指针、当前节点翻转前的下一节点指针
@@ -102,7 +103,7 @@ public class ReverseLinkedList {
             next = curr.getNext();
             //当前指针所指节点进行翻转，指向前一节点，第一次时指向的是null
             curr.setNext(pre);
-            //当处理到最后一组，但最后一组长度不足时的处理逻辑，即将已经翻转过来的最后一组子链表恢复原样，也即再翻转回来
+            //当处理到最后一组，但最后一组长度不足时的处理逻辑，即将已经翻转过来的最后一组子链表恢复原样，也即再翻转回来，这一步一定要在curr.setNext(pre)之后，否则会节点丢失
             if (next == null) {
                 //调用我之前写好的一个递归方式进行全链表翻转的静态方法实现链表复原
                 return reverseListRecursively(curr);
@@ -121,6 +122,39 @@ public class ReverseLinkedList {
         }
         //递归调用中返回翻转并拼接后的子链表的头节点，最外层则的是返回整个按k组翻转后的链表头
         return pre;
+    }
+
+    /**
+     *   Merge two sorted linked lists and return it as a new list.
+     *   The new list should be made by splicing together the nodes of the first two lists.
+     *   Example:
+     *   Input: 1->2->4, 1->3->4
+     *   Output: 1->1->2->3->4->4
+     * @param l1
+     * @param l2
+     * @return
+     */
+    public static ListNode<Integer> mergeTwoLists(ListNode<Integer> l1,ListNode<Integer> l2){
+
+        //空值判定
+        if (l1 == null) {
+            return l2;
+        }
+        if (l2 == null) {
+            return l1;
+        }
+
+        //创建一个空的链表头
+        ListNode<Integer> newHead;
+        if (l1.getValue() <= l2.getValue()) {
+            newHead = l1;
+            //递归调用，直至链尾回归拼接到next
+            newHead.setNext(mergeTwoLists(l1.getNext(), l2));
+        }else {
+            newHead = l2;
+            newHead.setNext(mergeTwoLists(l1,l2.getNext()));
+        }
+        return newHead;
     }
 
 }

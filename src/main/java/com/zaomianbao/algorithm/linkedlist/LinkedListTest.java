@@ -13,76 +13,84 @@ import java.util.Random;
 @Slf4j
 public class LinkedListTest {
 
-    @Test
-    public void testReverseListIteratively(){
-        ListNode<Integer> head = new ListNode<Integer>(0,null);
-        ListNode<Integer> pre = head;
-        ListNode<Integer> next;
+    /**
+     * 随机构造一个指定长度的链表结构
+     * @param range
+     * @return
+     */
+    private ListNode<Integer> randomIntLinkedList(int range) {
         Random random = RandomFactory.RANDOM.getRandom();
-        for (int i = 1 ; i < 10 ; i ++ ) {
-            next = new ListNode<Integer>(random.nextInt(20),null);
-            pre.setNext(next);
-            pre = next;
+        ListNode<Integer> head = new ListNode<Integer>(random.nextInt(20), null);
+        ListNode<Integer> curr = head;
+        ListNode<Integer> next;
+        for (int i = 1; i < range; i++) {
+            next = new ListNode<Integer>(random.nextInt(20), null);
+            curr.setNext(next);
+            curr = next;
         }
-        ListNode<Integer> tmp = head;
-        while (tmp!=null) {
-            log.info(tmp.getValue().toString());
-            tmp = tmp.getNext();
-        }
+        logLinkedList(head);
         log.info("======");
-        ListNode<Integer> result = ReverseLinkedList.reverseListIteratively(head);
+        return head;
+    }
+
+    /**
+     * 构造一个指定长度的升序链表结构
+     * @param range
+     * @return
+     */
+    private ListNode<Integer> generateSortedIntLinkedList(int range) {
+        ListNode<Integer> head = new ListNode<Integer>(0, null);
+        ListNode<Integer> curr = head;
+        ListNode<Integer> next;
+        for (int i = 1; i < range; i++) {
+            next = new ListNode<Integer>(i, null);
+            curr.setNext(next);
+            curr = next;
+        }
+        logLinkedList(head);
+        log.info("======");
+        return head;
+    }
+
+    /**
+     * 遍历打印一个链表
+     * @param result
+     */
+    private void logLinkedList(ListNode<Integer> result) {
         while (result!=null) {
             log.info(result.getValue().toString());
             result = result.getNext();
         }
+    }
+
+    @Test
+    public void testReverseListIteratively(){
+        ListNode<Integer> head = randomIntLinkedList(10);
+        ListNode<Integer> result = LinkedListUtil.reverseListIteratively(head);
+        logLinkedList(result);
     }
 
     @Test
     public void testReverseListRecursively(){
-        ListNode<Integer> head = new ListNode<Integer>(0,null);
-        ListNode<Integer> pre = head;
-        ListNode<Integer> next;
-        Random random = RandomFactory.RANDOM.getRandom();
-        for (int i = 1 ; i < 10 ; i ++ ) {
-            next = new ListNode<Integer>(random.nextInt(20),null);
-            pre.setNext(next);
-            pre = next;
-        }
-        ListNode<Integer> tmp = head;
-        while (tmp!=null) {
-            log.info(tmp.getValue().toString());
-            tmp = tmp.getNext();
-        }
-        log.info("======");
-        ListNode<Integer> result = ReverseLinkedList.reverseListRecursively(head);
-        while (result!=null) {
-            log.info(result.getValue().toString());
-            result = result.getNext();
-        }
+        ListNode<Integer> head = randomIntLinkedList(10);
+        ListNode<Integer> result = LinkedListUtil.reverseListRecursively(head);
+        logLinkedList(result);
     }
 
     @Test
     public void testReverseKGroup(){
-        ListNode<Integer> head = new ListNode<Integer>(0,null);
-        ListNode<Integer> pre = head;
-        ListNode<Integer> next;
-        Random random = RandomFactory.RANDOM.getRandom();
-        for (int i = 1 ; i < 21 ; i ++ ) {
-            next = new ListNode<Integer>(random.nextInt(20),null);
-            pre.setNext(next);
-            pre = next;
-        }
-        ListNode<Integer> tmp = head;
-        while (tmp!=null) {
-            log.info(tmp.getValue().toString());
-            tmp = tmp.getNext();
-        }
-        log.info("======");
-        ListNode<Integer> result = ReverseLinkedList.reverseKGroup(head,6);
-        while (result!=null) {
-            log.info(result.getValue().toString());
-            result = result.getNext();
-        }
+        ListNode<Integer> head = randomIntLinkedList(21);
+        ListNode<Integer> result = LinkedListUtil.reverseKGroup(head,6);
+        logLinkedList(result);
+    }
+
+    @Test
+    public void testMergeTwoLists(){
+        ListNode<Integer> list1 = generateSortedIntLinkedList(3);
+        ListNode<Integer> list2 = generateSortedIntLinkedList(5);
+
+        ListNode<Integer> result = LinkedListUtil.mergeTwoLists(list1,list2);
+        logLinkedList(result);
     }
 
 }
