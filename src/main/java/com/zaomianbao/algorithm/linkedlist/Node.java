@@ -5,16 +5,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @Description ListNode
+ * @Description Node
  * @Author zaomianbao
  * @Date 2020/3/21
  **/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ListNode<T> {
+public class Node<T> {
 
     private T value;
-    private ListNode<T> next;
+    private Node<T> next;
 
 }

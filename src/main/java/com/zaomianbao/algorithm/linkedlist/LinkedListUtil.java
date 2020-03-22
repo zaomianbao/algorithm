@@ -19,18 +19,18 @@ public class LinkedListUtil {
      * @param <T>
      * @return
      */
-    public static<T> ListNode<T> reverseListIteratively(ListNode<T> head) {
+    public static<T> Node<T> reverseListIteratively(Node<T> head) {
         //当为null和一个节点时直接返回
         if (head == null || head.getNext() == null) {
             return head;
         }
         //定义两个指针，一个prev用于记录一次操作中的head节点，一个next用于记录一次操作中的last节点
-        ListNode<T> curr = head;
-        ListNode<T> pre = null;
+        Node<T> curr = head;
+        Node<T> pre = null;
         //收敛条件，一直迭代到链尾
         while (curr != null) {
             //暂存一下当前节点在没倒转前的下一个节点，防止变化指针指向后找不到后续的节点
-            ListNode<T> tmp = curr.getNext();
+            Node<T> tmp = curr.getNext();
             //这一步是真正的倒转的操作
             curr.setNext(pre);
             //pre指针后移一位，将当前操作的节点作为下一个循环操作节点的下一个节点
@@ -48,7 +48,7 @@ public class LinkedListUtil {
      * @param <T>
      * @return
      */
-    public static<T> ListNode<T> reverseListRecursively(ListNode<T> node) {
+    public static<T> Node<T> reverseListRecursively(Node<T> node) {
         //判断空值
         if (node == null) {
             throw new CommonException(-1,"NullPointException");
@@ -59,10 +59,10 @@ public class LinkedListUtil {
             return node;
         }
 
-        ListNode<T> next = node.getNext();
+        Node<T> next = node.getNext();
 
         //这个方法会一直追溯到末节点
-        ListNode<T> newHead = reverseListRecursively(next);
+        Node<T> newHead = reverseListRecursively(next);
         //末节点返回回来后在依次执行以下两行代码
         //翻转链表的指向
         next.setNext(node);
@@ -85,7 +85,7 @@ public class LinkedListUtil {
      * @param <T>
      * @return
      */
-    public static<T> ListNode<T> reverseKGroup(ListNode<T> node,int k){
+    public static<T> Node<T> reverseKGroup(Node<T> node,int k){
 
         //空值判定
         if ( node == null ) {
@@ -93,9 +93,9 @@ public class LinkedListUtil {
         }
 
         //定义三个指正，当前节点指针、当前节点翻转前的上一节点指针、当前节点翻转前的下一节点指针
-        ListNode<T> curr = node;
-        ListNode<T> pre = null;
-        ListNode<T> next;
+        Node<T> curr = node;
+        Node<T> pre = null;
+        Node<T> next;
         //存储组大小的副本
         int j = k;
         while ( j-- > 0) {
@@ -113,13 +113,10 @@ public class LinkedListUtil {
             //curr指针沿着链表向下移动一节
             curr = next;
         }
-        //如果还有子链表则继续翻转
-        if (curr!=null) {
-            //一组循环结束后进行剩余子链表的翻转
-            ListNode<T> subHead = reverseKGroup(curr, k);
-            //递归回来，从后往前拼接已经翻转后的字串
-            node.setNext(subHead);
-        }
+        //一组循环结束后进行剩余子链表的翻转
+        Node<T> subHead = reverseKGroup(curr, k);
+        //递归回来，从后往前拼接已经翻转后的字串
+        node.setNext(subHead);
         //递归调用中返回翻转并拼接后的子链表的头节点，最外层则的是返回整个按k组翻转后的链表头
         return pre;
     }
@@ -134,7 +131,7 @@ public class LinkedListUtil {
      * @param l2
      * @return
      */
-    public static ListNode<Integer> mergeTwoLists(ListNode<Integer> l1,ListNode<Integer> l2){
+    public static Node<Integer> mergeTwoLists(Node<Integer> l1,Node<Integer> l2){
 
         //空值判定
         if (l1 == null) {
@@ -145,7 +142,7 @@ public class LinkedListUtil {
         }
 
         //创建一个空的链表头
-        ListNode<Integer> newHead;
+        Node<Integer> newHead;
         if (l1.getValue() <= l2.getValue()) {
             newHead = l1;
             //递归调用，直至链尾回归拼接到next
