@@ -61,4 +61,28 @@ public class LinkedListTest {
         }
     }
 
+    @Test
+    public void testReverseKGroup(){
+        ListNode<Integer> head = new ListNode<Integer>(0,null);
+        ListNode<Integer> pre = head;
+        ListNode<Integer> next;
+        Random random = RandomFactory.RANDOM.getRandom();
+        for (int i = 1 ; i < 21 ; i ++ ) {
+            next = new ListNode<Integer>(random.nextInt(20),null);
+            pre.setNext(next);
+            pre = next;
+        }
+        ListNode<Integer> tmp = head;
+        while (tmp!=null) {
+            log.info(tmp.getValue().toString());
+            tmp = tmp.getNext();
+        }
+        log.info("======");
+        ListNode<Integer> result = ReverseLinkedList.reverseKGroup(head,6);
+        while (result!=null) {
+            log.info(result.getValue().toString());
+            result = result.getNext();
+        }
+    }
+
 }

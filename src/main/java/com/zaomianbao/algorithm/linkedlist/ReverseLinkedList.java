@@ -70,5 +70,57 @@ public class ReverseLinkedList {
         return newHead;
     }
 
+    /**
+     *   Given a linked list, reverse the nodes of a linked list k at a time and return its modified list.
+         k is a positive integer and is less than or equal to the length of the linked list. If the number of nodes is not a multiple of k then left-out nodes in the end should remain as it is.
+         Example:
+         Given this linked list: 1->2->3->4->5
+         For k = 2, you should return: 2->1->4->3->5
+         For k = 3, you should return: 3->2->1->4->5
+         Note:
+         Only constant extra memory is allowed.
+         You may not alter the values in the list's nodes, only nodes itself may be changed.
+     * @param node
+     * @param <T>
+     * @return
+     */
+    public static<T> ListNode<T> reverseKGroup(ListNode<T> node,int k){
+
+        //空值判定
+        if ( node == null ) {
+            throw new CommonException(-1,"NullPointException");
+        }
+
+        //定义三个指正，当前节点指针、当前节点翻转前的上一节点指针、当前节点翻转前的下一节点指针
+        ListNode<T> curr = node;
+        ListNode<T> pre = null;
+        ListNode<T> next;
+        //存储组大小的副本
+        int j = k;
+        while ( j-- > 0) {
+            //next指针赋值
+            next = curr.getNext();
+            //当前指针所指节点进行翻转，指向前一节点，第一次时指向的是null
+            curr.setNext(pre);
+            //当处理到最后一组，但最后一组长度不足时的处理逻辑，即将已经翻转过来的最后一组子链表恢复原样，也即再翻转回来
+            if (next == null) {
+                //调用我之前写好的一个递归方式进行全链表翻转的静态方法实现链表复原
+                return reverseListRecursively(curr);
+            }
+            //pre指针沿着链表向下移动一节
+            pre = curr;
+            //curr指针沿着链表向下移动一节
+            curr = next;
+        }
+        //如果还有子链表则继续翻转
+        if (curr!=null) {
+            //一组循环结束后进行剩余子链表的翻转
+            ListNode<T> subHead = reverseKGroup(curr, k);
+            //递归回来，从后往前拼接已经翻转后的字串
+            node.setNext(subHead);
+        }
+        //递归调用中返回翻转并拼接后的子链表的头节点，最外层则的是返回整个按k组翻转后的链表头
+        return pre;
+    }
 
 }
