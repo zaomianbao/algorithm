@@ -1,5 +1,7 @@
 package com.zaomianbao.algorithm.stack;
 
+import com.zaomianbao.algorithm.util.CommonException;
+
 /**
  * @Description StackUtil
  * @Author zaomianbao
@@ -105,4 +107,101 @@ public class StackUtil {
         return result;
 
     }
+
+    /**
+     * 使用栈实现一个基础计算机
+     * 可以解决LeetCode 224、227题
+     * @param expression
+     * @return
+     */
+    public static int calculateExpression(String expression) {
+        return calRpn(convertToRpn(expression));
+    }
+
+    /**
+     * 中缀表达式转逆波兰表达式(后缀表达式)
+     * @param expression
+     * @return
+     */
+    private static String convertToRpn(String expression) {
+        char[] arr = expression.toCharArray();
+        LinkedListStack<Character> stack = new LinkedListStack<Character>();
+        StringBuilder out = new StringBuilder();
+        for(int i = 0; i < arr.length; i++){
+            char ch = arr[i];
+            if(ch == ' ') continue;
+            // if is operand, add to the output stream directly
+            if(ch >= '0' && ch <= '9') {
+                out.append(ch);
+                continue;
+            }
+            //if is '(', push to the stack directly
+            if(ch == '(') stack.push(ch);
+            //if is '+' or '-', pop the operator from the stack until '(' and add to the output stream
+            //push the operator to the stack
+            if(ch == '+' || ch == '-'){
+                while(stack.peek()!=null && (stack.peek() != '(')){
+                    out.append(stack.pop());
+                }
+                stack.push(ch);
+                continue;
+            }
+
+            //if is '*' or '/', pop the operator stack and add to the output stream until lower priority or '('
+            //push the operator to the stack
+            if(ch == '*' || ch == '/'){
+                while(stack.peek()!=null && (stack.peek() == '*' || stack.peek() == '/')) {
+                    out.append(stack.pop());
+                }
+                stack.push(ch);
+                continue;
+            }
+
+            //if is ')' pop the operator stack and add to the output stream until '(',
+            //pop '('
+            if(ch == ')'){
+                while(stack.peek()!=null && stack.peek() != '(') {
+                    out.append(stack.pop());
+                }
+                stack.pop();
+            }
+        }
+        //pop rest of the operator in stack
+        while(stack.peek()!=null) {
+            out.append(stack.pop());
+        }
+        return out.toString();
+    }
+
+    /**
+     * calculate the value of the RPE(Reverse Polish Expression)
+     * @param rpe - Reverse Polish expression
+     * @return - result of the expression
+     */
+    private static int calRpn(String rpe){
+        Stack<Integer> v = new LinkedListStack<Integer>();
+        char[] arr = rpe.toCharArray();
+        for(int i = 0; i < arr.length; i++){
+            Character ch = arr[i];
+            // if is operand, push to the stack
+            if(ch >= '0' && ch <= '9') {
+                v.push(ch - '0');
+            }else {
+                // if is operator, calculate the result
+                // with top 2 operands in the stack,
+                // push the result into the stack
+                v.push(calculateTwoValue(ch, v.pop(), v.pop()));
+            }
+        }
+        return v.pop();
+    }
+
+    private static int calculateTwoValue(char op, int f1, int f2){
+        if(op == '+') return f2 + f1;
+        else if(op == '-') return f2 - f1;
+        else if(op  == '*') return f2 * f1;
+        else if(op == '/') return f2 / f1;
+        else throw new CommonException(-1,"非法操作符");
+    }
+
 }
