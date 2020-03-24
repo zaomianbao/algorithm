@@ -34,4 +34,5 @@ public class StackTest {
         String expression = "3*(5+2*(3*(3-1*2+1))+2)";
         log.info("计算结果为：{}",StackUtil.calculateExpression(expression));
     }
+
 }
