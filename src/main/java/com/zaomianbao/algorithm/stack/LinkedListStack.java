@@ -1,18 +1,12 @@
 package com.zaomianbao.algorithm.stack;
 
 import com.zaomianbao.algorithm.linkedlist.Node;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * @Description LinkedListStack
  * @Author zaomianbao
  * @Date 2020/3/22
  **/
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class LinkedListStack<E> implements Stack<E>{
 
     private Node<E> head;
@@ -28,8 +22,8 @@ public class LinkedListStack<E> implements Stack<E>{
         }
         Node<E> newHead = new Node<E>();
         newHead.setValue(item);
-        newHead.setNext(getHead());
-        setHead(newHead);
+        newHead.setNext(this.head);
+        this.head = newHead;
         return item;
     }
 
@@ -38,12 +32,12 @@ public class LinkedListStack<E> implements Stack<E>{
      * @return
      */
     public E pop() {
-        Node<E> node = getHead();
+        Node<E> node = this.head;
         if (node == null) {
             return null;
         }
         E value = node.getValue();
-        setHead(node.getNext());
+        this.head = node.getNext();
         return value;
     }
 
@@ -52,7 +46,7 @@ public class LinkedListStack<E> implements Stack<E>{
      * @return
      */
     public E peek() {
-        Node<E> node = getHead();
+        Node<E> node = this.head;
         if (node == null) {
             return null;
         }

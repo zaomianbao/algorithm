@@ -35,4 +35,10 @@ public class StackTest {
         log.info("计算结果为：{}",StackUtil.calculateExpression(expression));
     }
 
+    @Test
+    public void testLargestRectangleArea(){
+        int[] heights = {7,7,1,5,6,2,3};
+        log.info("直方图里最大的矩形区域面积为：{}",StackUtil.largestRectangleArea(heights));
+    }
+
 }

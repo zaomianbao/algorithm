@@ -204,4 +204,33 @@ public class StackUtil {
         else throw new CommonException(-1,"非法操作符");
     }
 
+    public static int largestRectangleArea(int[] heights) {
+        //初始化一个空栈
+        LinkedListStack<Integer> stack = new LinkedListStack<Integer>();
+        //存储最大面积的值
+        int max = 0;
+        //遍历数据
+        for (int i = 0; i < heights.length; i++) {
+            //当栈不为空同时当前下标下的值小于栈顶的值时
+            Integer peek;
+            while ((peek = stack.peek()) != null && heights[peek] > heights[i]) {
+                //计算出对应的直方图的面积：栈顶的值对应数组下标下的值 *（当前下标 - 栈顶的值）
+                int area = heights[peek] * (i - peek);
+                max = area > max ? area : max;
+                //再将栈顶元素弹出
+                stack.pop();
+            }
+            //将当前下标作为一个值压入栈顶
+            stack.push(i);
+
+        }
+        //处理栈中剩余的元素
+        while (stack.peek() != null) {
+            int area = heights[stack.peek()] * (stack.pop() - (stack.peek() == null ? 0 : stack.peek()));
+            max = area > max ? area : max;
+        }
+        //返回结果
+        return max;
+    }
+
 }
