@@ -50,7 +50,7 @@ public class SortUtil {
     }
 
     /**
-     * 选择排序
+     * 选择排序，一次将最小值提到数组头部
      * @param t
      * @param <T>
      * @return
@@ -110,4 +110,34 @@ public class SortUtil {
         }
         return t;
     }
+
+    /**
+     * 希尔排序(插入排序的优化版本)
+     * @param t
+     * @param <T>
+     * @return
+     */
+    public static<T extends Comparable> T[] shellSort(T[] t) {
+        int length = t.length;
+        int h = 1;
+        while (h < length/3) {
+            //递增序列(这个递增序列并不是最好的，但是是最简单和通用的，更加优秀的递增序列有待我们发现)
+            h = 3 * h + 1;
+        }
+        //递增序列的最大值决定了循环的次数，即将大数组拆分成不同级别的次数；当h递归到0时退出循环
+        while (h >= 1) {
+            //内层即为普通的插入排序，只不过这里的起点下标为h，同时是相邻h个元素的值进行比较和交换
+            for (int i = h; i < length ; i++) {
+                for (int j = i; j >= h && t[j].compareTo(t[j - h]) < 0; j = j - h) {
+                    T tmp = t[j];
+                    t[j] = t[j-h];
+                    t[j-h] = tmp;
+                }
+            }
+            //递增序列逐渐递归为1
+            h = h/3;
+        }
+        return t;
+    }
+
 }

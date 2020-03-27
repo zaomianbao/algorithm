@@ -50,4 +50,17 @@ public class SortTest {
         }
     }
 
+    @Test
+    public void testShellSort() {
+        Integer[] t = {6,1,3,10,8,7,30,2,18,17,1,9,9,3};
+        for (int i = 0; i < t.length; i++) {
+            log.info("输入为：{}",t[i]);
+        }
+        log.info("====");
+        Integer[] result = SortUtil.shellSort(t);
+        for (int i = 0; i < result.length; i++) {
+            log.info("输出为：{}",result[i]);
+        }
+    }
+
 }
