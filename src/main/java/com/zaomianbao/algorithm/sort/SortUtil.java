@@ -37,9 +37,7 @@ public class SortUtil {
             //每次循环的长度减一，因为每次都有一个最大值沉到了最底下，剩下只需要对上层未处理的数据进行循环
             for (int j = 0; j < length - i - 1; j++) {
                 if (t[j].compareTo(t[j+1]) > 0 ) {
-                    T tmp = t[j];
-                    t[j] = t[j+1];
-                    t[j+1] = tmp;
+                    swap(t, j, j+1);
                     flag = true;
                 }
             }
@@ -73,9 +71,7 @@ public class SortUtil {
             //每次循环的起点下标会增一，因为每次都有一个最小值被选择进入到了最头部，剩下只需要对下层层未处理的数据进行循环
             for (int j = i + 1 ; j < length; j++) {
                 if (t[i].compareTo(t[j]) > 0) {
-                    T tmp = t[i];
-                    t[i] = t[j];
-                    t[j] = tmp;
+                    swap(t, i, j);
                     flag = true;
                 }
             }
@@ -108,9 +104,7 @@ public class SortUtil {
             //将当前元素与之前的元素一一对比，直至插入到正确大小顺序的位置停止
             //(即不一定会遍历到头就可以跳出了，因为顺序已经是排序的)
             for (int j = i; j > 0 && t[j].compareTo(t[j-1]) < 0; j--) {
-                T tmp = t[j];
-                t[j] = t[j-1];
-                t[j-1] = tmp;
+                swap(t, j-1, j);
             }
         }
         return t;
@@ -134,9 +128,7 @@ public class SortUtil {
             //内层即为普通的插入排序，只不过这里的起点下标为h，同时是相邻h个元素的值进行比较和交换
             for (int i = h; i < length ; i++) {
                 for (int j = i; j >= h && t[j].compareTo(t[j - h]) < 0; j = j - h) {
-                    T tmp = t[j];
-                    t[j] = t[j-h];
-                    t[j-h] = tmp;
+                    swap(t, j-h, j);
                 }
             }
             //递增序列逐渐递归为1
@@ -208,6 +200,109 @@ public class SortUtil {
             else if ((aux[j]).compareTo(aux[i]) < 0) a[k] = aux[j++];
             else a[k] = aux[i++];
         }
+    }
+
+    /**
+     * 快速排序：先部分排序切分再进行子数组的递归调用
+     * @param a
+     * @param <T>
+     */
+    public static<T extends Comparable> void quickSort(T[] a,int lo,int hi) {
+        if (hi <= lo) return;
+        //处理枢纽值
+        dealPivot(a,lo,hi);
+        //部分排序后并切分返回切分点（这里的部分排序即为：a[lo..j-1] <= a[j] <= a[j+1..hi]）
+        int j = partition(a, lo, hi);
+        //递归调用左半部分完全排序
+        quickSort(a,lo,j-1);
+        //递归调用右半部分完全排序
+        quickSort(a,j+1,hi);
+    }
+
+    /**
+     * 处理枢纽值，将枢纽值放入数组头部
+     * @param arr
+     * @param left
+     * @param right
+     */
+    private static<T extends Comparable> void dealPivot(T[] arr, int left, int right) {
+        int mid = (left + right) / 2;
+        if (arr[left].compareTo(arr[right]) > 0) {
+            swap(arr, left, right);
+        }
+        if (arr[left].compareTo(arr[mid]) > 0) {
+            swap(arr, left, mid);
+        }
+        if (arr[right].compareTo(arr[mid]) < 0) {
+            swap(arr, right, mid);
+        }
+        //枢纽值被放在序列头
+        swap(arr, left, mid);
+    }
+
+    /**
+     * 快速排序的切分
+     * @param a
+     * @param lo
+     * @param hi
+     * @param <T>
+     * @return
+     */
+    private static<T extends Comparable> int partition(T[] a,int lo,int hi){
+        int i = lo;
+        int j = hi + 1;
+        T v = a[lo];
+        while (true) {
+            //这里++i<=hi和--j>=lo条件还是有必要的，防止下标越界
+            while (++i<=hi && a[i].compareTo(v) < 0);
+            while (--j>=lo && v.compareTo(a[j]) < 0);
+            //当i与j相遇后跳出循环
+            if (i >= j) break;
+            //交换i和j的元素，比头小的元素放到左边也就是i的位置，比头大的元素放到右边也就是j的位置
+            swap(a, i, j);
+        }
+        // 左右两边各整理完后，将中间值，也就是头部的值与j位置的值进行交换
+        // 这样就做到了中间值的左边都比中间值小，中间值的右边都比中间值大
+        swap(a, lo, j);
+        return j;
+    }
+
+    /**
+     * 快速排序(三向切分的方式)
+     * @param a
+     * @param <T>
+     */
+    public static<T extends Comparable> void quickSort3Way(T[] a,int lo,int hi) {
+        if (hi <= lo) return;
+        //处理枢纽值
+        dealPivot(a,lo,hi);
+        int lt = lo;
+        int i = lo + 1;
+        int gt = hi;
+        T v = a[lo];
+        while (i <= gt) {
+            int cmp = a[i].compareTo(v);
+            if (cmp < 0) swap(a,lt++,i++);
+            else if (cmp > 0) swap(a,i,gt--);
+            else i++;
+        }
+        //递归调用左半部分完全排序
+        quickSort3Way(a,lo,lt-1);
+        //递归调用右半部分完全排序
+        quickSort3Way(a,gt+1,hi);
+    }
+
+    /**
+     * 元素交换
+     * @param a
+     * @param b
+     * @param c
+     * @param <T>
+     */
+    private static <T extends Comparable> void swap(T[] a, int b, int c) {
+        T tmp = a[b];
+        a[b] = a[c];
+        a[c] = tmp;
     }
 
 }
