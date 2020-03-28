@@ -14,6 +14,11 @@ public class SortUtil {
     }
 
     /**
+     * 辅助数组
+     */
+    private static Comparable[] aux;
+
+    /**
      * 冒泡排序，依次将最大值沉入海底（当一座城沉入海底当一个人成了谜）
      * @param t
      * @param <T>
@@ -138,6 +143,71 @@ public class SortUtil {
             h = h/3;
         }
         return t;
+    }
+
+    /**
+     * 归并排序（自顶向下方式，递归的方式）
+     * @param a
+     * @return
+     */
+    public static Comparable[] mergeSortTopDown(Comparable[] a){
+        int length = a.length;
+        //辅助数组
+        aux = new Comparable[length];
+        sort(a,0, length -1);
+        return a;
+    }
+
+    /**
+     * 归并排序（自底向上方式，非递归循序渐进的方式）
+     * @param a
+     * @return
+     */
+    public static void mergeSortBottomUp(Comparable[] a){
+        int length = a.length;
+        //辅助数组
+        aux = new Comparable[length];
+        for (int size = 1; size < length; size=size+size) {
+            for (int lo = 0; lo < length - size; lo += size + size) {
+                mergeSortedArray(a,lo,lo+size-1,Math.min(lo+size+size-1,length-1));
+            }
+        }
+    }
+
+    /**
+     * 递归拆分排序加合并
+     * @param a
+     * @param lo
+     * @param hi
+     */
+    private static void sort(Comparable[] a,int lo,int hi){
+        if (hi <= lo) return;
+        int mid = lo + (hi - lo)/ 2;
+        sort(a,lo,mid);
+        sort(a,mid + 1,hi);
+        mergeSortedArray(a,lo,mid,hi);
+    }
+
+    /**
+     * 合并并排序两个有序数组(这里传入的数组即两个有序数组合并后的数组，但未被排序)
+     * @param a     传入数组
+     * @param lo    排序对比起始下标
+     * @param mid   局部数组对比的边界，不一定是当前数组的中间下标
+     * @param hi    排序对比结束下标
+     * @return
+     */
+    private static void mergeSortedArray(Comparable[] a,int lo,int mid,int hi) {
+        int i = lo;
+        int j = mid + 1;
+        for (int k = lo; k <= hi; k++) {
+            aux[k] = a[k];
+        }
+        for (int k = lo; k <= hi; k++) {
+            if (i > mid) a[k] = aux[j++];
+            else if (j > hi) a[k] = aux[i++];
+            else if ((aux[j]).compareTo(aux[i]) < 0) a[k] = aux[j++];
+            else a[k] = aux[i++];
+        }
     }
 
 }
