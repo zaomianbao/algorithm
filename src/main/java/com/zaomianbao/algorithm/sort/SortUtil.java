@@ -151,6 +151,20 @@ public class SortUtil {
     }
 
     /**
+     * 递归拆分排序加合并
+     * @param a
+     * @param lo
+     * @param hi
+     */
+    private static void sort(Comparable[] a,int lo,int hi){
+        if (hi <= lo) return;
+        int mid = lo + (hi - lo)/ 2;
+        sort(a,lo,mid);
+        sort(a,mid + 1,hi);
+        mergeSortedArray(a,lo,mid,hi);
+    }
+
+    /**
      * 归并排序（自底向上方式，非递归循序渐进的方式）
      * @param a
      * @return
@@ -167,20 +181,6 @@ public class SortUtil {
     }
 
     /**
-     * 递归拆分排序加合并
-     * @param a
-     * @param lo
-     * @param hi
-     */
-    private static void sort(Comparable[] a,int lo,int hi){
-        if (hi <= lo) return;
-        int mid = lo + (hi - lo)/ 2;
-        sort(a,lo,mid);
-        sort(a,mid + 1,hi);
-        mergeSortedArray(a,lo,mid,hi);
-    }
-
-    /**
      * 合并并排序两个有序数组(这里传入的数组即两个有序数组合并后的数组，但未被排序)
      * @param a     传入数组
      * @param lo    排序对比起始下标
@@ -188,7 +188,7 @@ public class SortUtil {
      * @param hi    排序对比结束下标
      * @return
      */
-    private static void mergeSortedArray(Comparable[] a,int lo,int mid,int hi) {
+    public static void mergeSortedArray(Comparable[] a,int lo,int mid,int hi) {
         int i = lo;
         int j = mid + 1;
         for (int k = lo; k <= hi; k++) {

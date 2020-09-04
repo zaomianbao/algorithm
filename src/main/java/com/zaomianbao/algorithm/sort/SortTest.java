@@ -77,10 +77,10 @@ public class SortTest {
             printIn(t[i]);
         }
         log.info("====");
-        /*Comparable[] result = SortUtil.mergeSortedArray(t,0,t1.length-1,t.length-1);
-        for (int i = 0; i < result.length; i++) {
-            log.info("输出为：{}",result[i]);
-        }*/
+        SortUtil.mergeSortedArray(t,0,t1.length-1,t.length-1);
+        for (int i = 0; i < t.length; i++) {
+            log.info("输出为：{}",t[i]);
+        }
     }
 
     @Test
@@ -124,7 +124,7 @@ public class SortTest {
 
     @Test
     public void testQuickSort3Way() {
-        Integer[] t = {6,1,3,10,8,7,30,2,18,17,1,9,9,3};
+        Integer[] t = {6,1,3,10,3,3,1,8,10,1,6,6,3,10};
         for (int i = 0; i < t.length; i++) {
             printIn(t[i]);
         }
