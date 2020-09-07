@@ -1,6 +1,8 @@
 package com.zaomianbao.algorithm.leecode;
 
 import lombok.extern.slf4j.Slf4j;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -43,12 +45,12 @@ public class Question1TwoSum {
 
     public static void main(String[] args) {
         int[] numArray = {1,3,9,18,132,78};
-        int target = 33;
-        int[] result = twoSum(numArray, target);
+        int target = 27;
+        int[] result = twoSum3(numArray, target);
         log.info("结果为：{}",result);
     }
 
-    private static int[] twoSum(int[] numArray, int target) {
+    private static int[] twoSum1(int[] numArray, int target) {
         int[] result = new int[2];
         boolean flag = false;
         for(int i = 0; i < numArray.length; i ++){
@@ -64,7 +66,39 @@ public class Question1TwoSum {
                 break;
             }
         }
-
         return result;
     }
+
+    private static int[] twoSum2(int[] numArray, int target) {
+        int[] result = new int[2];
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>(8);
+        for(int i = numArray.length -1 ; i >= 0; i --){
+            map.put(numArray[i],i);
+        }
+        for(int i = 0; i < numArray.length; i ++){
+            Integer index = map.get(target - numArray[i]);
+            if (index != null && index != i) {
+                result[0] = i;
+                result[1] = index;
+                break;
+            }
+        }
+        return result;
+    }
+
+    private static int[] twoSum3(int[] numArray, int target) {
+        int[] result = new int[2];
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>(8);
+        for(int i = 0 ; i < numArray.length; i ++){
+            if (map.containsKey(target - numArray[i])) {
+                result[0] = map.get(target - numArray[i]);
+                result[1] = i;
+                return result;
+            } else {
+                map.put(numArray[i],i);
+            }
+        }
+        return result;
+    }
+
 }
