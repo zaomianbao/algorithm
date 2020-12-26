@@ -3,9 +3,9 @@ package com.zaomianbao.algorithm.linkedlist;
 import com.zaomianbao.algorithm.util.CommonException;
 
 /**
- * @Description LinkedListUtil
- * @Author zaomianbao
- * @Date 2020/3/21
+ * LinkedListUtil
+ * @author zaomianbao
+ * @date 2020/3/21
  **/
 public class LinkedListUtil {
 

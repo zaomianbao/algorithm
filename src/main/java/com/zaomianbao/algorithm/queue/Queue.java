@@ -1,9 +1,9 @@
 package com.zaomianbao.algorithm.queue;
 
 /**
- * @Description Queue
- * @Author zaomianbao
- * @Date 2020/3/24
+ * Queue
+ * @author zaomianbao
+ * @date 2020/3/24
  **/
 public interface Queue<E> {
 

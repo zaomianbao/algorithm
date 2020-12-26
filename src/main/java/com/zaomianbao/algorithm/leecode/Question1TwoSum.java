@@ -71,7 +71,7 @@ public class Question1TwoSum {
 
     private static int[] twoSum2(int[] numArray, int target) {
         int[] result = new int[2];
-        Map<Integer, Integer> map = new HashMap<Integer, Integer>(8);
+        Map<Integer, Integer> map = new HashMap<>(8);
         for(int i = numArray.length -1 ; i >= 0; i --){
             map.put(numArray[i],i);
         }
@@ -88,7 +88,7 @@ public class Question1TwoSum {
 
     private static int[] twoSum3(int[] numArray, int target) {
         int[] result = new int[2];
-        Map<Integer, Integer> map = new HashMap<Integer, Integer>(8);
+        Map<Integer, Integer> map = new HashMap<>(8);
         for(int i = 0 ; i < numArray.length; i ++){
             if (map.containsKey(target - numArray[i])) {
                 result[0] = map.get(target - numArray[i]);

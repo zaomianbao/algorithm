@@ -3,9 +3,9 @@ package com.zaomianbao.algorithm.stack;
 import com.zaomianbao.algorithm.util.CommonException;
 
 /**
- * @Description StackUtil
- * @Author zaomianbao
- * @Date 2020/3/22
+ * StackUtil
+ * @author zaomianbao
+ * @date 2020/3/22
  **/
 public class StackUtil {
 

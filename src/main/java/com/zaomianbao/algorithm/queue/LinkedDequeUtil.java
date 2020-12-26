@@ -3,9 +3,9 @@ package com.zaomianbao.algorithm.queue;
 import com.zaomianbao.algorithm.util.CommonException;
 
 /**
- * @Description LinkedDequeUtil
- * @Author zaomianbao
- * @Date 2020/3/24
+ * LinkedDequeUtil
+ * @author zaomianbao
+ * @date 2020/3/24
  **/
 public class LinkedDequeUtil {
 

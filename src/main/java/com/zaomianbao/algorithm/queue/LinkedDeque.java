@@ -5,9 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @Description LinkedDeque
- * @Author zaomianbao
- * @Date 2020/3/24
+ * LinkedDeque
+ * @author zaomianbao
+ * @date 2020/3/24
  **/
 @Data
 @NoArgsConstructor

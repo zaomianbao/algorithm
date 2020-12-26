@@ -1,9 +1,9 @@
 package com.zaomianbao.algorithm.util;
 
 /**
- * @Description 全局自定义异常
- * @Author zaomianbao
- * @Date 2020/3/21
+ * 全局自定义异常
+ * @author zaomianbao
+ * @date 2020/3/21
  **/
 public class CommonException extends RuntimeException {
 

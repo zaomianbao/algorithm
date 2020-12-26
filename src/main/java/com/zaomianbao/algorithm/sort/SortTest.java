@@ -4,9 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 /**
- * @Description SortTest
- * @Author zaomianbao
- * @Date 2020/3/26
+ * SortTest
+ * @author zaomianbao
+ * @date 2020/3/26
  **/
 @Slf4j
 public class SortTest {

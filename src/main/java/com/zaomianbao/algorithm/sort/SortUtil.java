@@ -3,9 +3,9 @@ package com.zaomianbao.algorithm.sort;
 import com.zaomianbao.algorithm.util.CommonException;
 
 /**
- * @Description SortUtil
- * @Author zaomianbao
- * @Date 2020/3/26
+ * SortUtil
+ * @author zaomianbao
+ * @date 2020/3/26
  **/
 public class SortUtil {
 

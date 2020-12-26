@@ -1,9 +1,9 @@
 package com.zaomianbao.algorithm.stack;
 
 /**
- * @Description Stack
- * @Author zaomianbao
- * @Date 2020/3/22
+ * Stack
+ * @author zaomianbao
+ * @date 2020/3/22
  **/
 public interface Stack<E> {
 

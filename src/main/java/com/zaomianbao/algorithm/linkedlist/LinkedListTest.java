@@ -6,9 +6,9 @@ import org.junit.Test;
 import java.util.Random;
 
 /**
- * @Description 链表结构JUNIT测试类
- * @Author zaomianbao
- * @Date 2020/3/21
+ * 链表结构JUNIT测试类
+ * @author zaomianbao
+ * @date 2020/3/21
  **/
 @Slf4j
 public class LinkedListTest {
