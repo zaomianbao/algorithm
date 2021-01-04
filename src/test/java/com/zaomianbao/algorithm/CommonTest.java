@@ -1,7 +1,9 @@
 package com.zaomianbao.algorithm;
 
+import edu.princeton.cs.algs4.StdDraw;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+import static com.zaomianbao.algorithm.common.MathAlgorithm.*;
 
 /**
  * 公共测试类
@@ -30,6 +32,30 @@ public class CommonTest {
         log.info("次方函数:{}",Math.pow(2,1));
         //√4
         log.info("平方根函数:{}",Math.sqrt(4));
+    }
+
+    @Test
+    public void testStdDraw() {
+        int n = 100;
+        StdDraw.setXscale(0,n);
+        StdDraw.setYscale(0,n*n);
+        StdDraw.setPenRadius(.01);
+        for (int i = 1; i <= n; i++) {
+            StdDraw.point(i,i);
+            StdDraw.point(i,i*i);
+            StdDraw.point(i,i*Math.log(i));
+        }
+        try {
+            Thread.sleep(10000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testIsPrime() {
+        log.info("是否为质数:{}",isPrime(13));
+        log.info("开平方结果为:{}",sqrt(4));
     }
 
 }
